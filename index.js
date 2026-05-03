@@ -1,1 +1,1 @@
-module.exports = require('./lib/queue').queue
+export * from './dist/index.js'

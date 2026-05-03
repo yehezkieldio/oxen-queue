@@ -1,26 +1,49 @@
 {
   "name": "oxen-queue",
-  "version": "0.1.12",
-  "description": "A resilient worker queue backed by MySQL.",
+  "version": "2.0.0",
+  "description": "A no-frills, resilient worker queue backed by MySQL.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./compat": {
+      "types": "./dist/compat.d.ts",
+      "default": "./dist/compat.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "sideEffects": false,
   "engines": {
-    "node": ">=7.0.0"
+    "node": ">=24.0.0"
   },
   "author": "Opteo Team <support@opteo.com>",
   "repository": {
     "type": "git",
     "url": "https://github.com/Opteo/oxen-queue.git"
   },
-  "dependencies": {
-    "bluebird": "^3.7.2",
-    "lodash": "^4.17.21",
-    "mysql2": "3.16.3"
-  },
   "scripts": {
-    "test": "mocha test/ --timeout 6000 --exit"
+    "build": "tsup src/index.ts src/compat.ts --format esm --dts --clean",
+    "typecheck": "tsc --noEmit",
+    "test": "bun test",
+    "test:integration": "OXEN_INTEGRATION=1 bun test test/integration"
+  },
+  "dependencies": {
+    "mysql2": "3.16.3",
+    "zod": "^3.24.4"
   },
   "devDependencies": {
-    "chai": "^4.1.2",
-    "mocha": "^5.2.0"
+    "@types/bun": "^1.2.13",
+    "@types/node": "^24.0.0",
+    "tsup": "^8.4.0",
+    "typescript": "^5.8.3"
   },
   "license": "MIT"
 }
