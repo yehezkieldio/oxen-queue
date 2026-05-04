@@ -4,26 +4,7 @@ A no-frills, resilient worker queue backed by MySQL.
 
 Oxen is for teams that already operate MySQL and want a durable, SQL-queryable queue without adding Kafka, Redis, or a queue UI to their stack. It optimizes for high throughput, persistence, operational debuggability, and multi-process workers rather than sub-second user-facing latency.
 
-## Status
-
-This fork is a modern V2 rewrite:
-
-- TypeScript-first API with generated declarations
-- Bun-first development, tests, and builds
-- Node.js LTS-compatible package output
-- MySQL 9+ baseline
-- ESM-only package output
-- No Bluebird or Lodash
-- Explicit worker lifecycle and graceful stop support
-- Legacy adapter for the old `new Oxen()`, `addJob()`, `addJobs()`, `process()`, and `stopProcessing()` API
-
-## Install
-
-```bash
-bun add oxen-queue
-```
-
-Node.js projects can install it with their package manager of choice. The package is ESM-only.
+This is a private fork of the original and is not published to npm.
 
 ## Quick Start
 
@@ -264,15 +245,3 @@ OXEN_TEST_PASSWORD=password \
 OXEN_TEST_DATABASE=oxen_test \
 bun run test:integration
 ```
-
-## Migration Notes
-
-This is a breaking V2 rewrite. The recommended path is:
-
-1. Create a new V2 table with `createSchema()` or your migration tool.
-2. Point new producers and workers at the V2 API.
-3. Keep old workers alive until the legacy table is drained.
-4. Move SQL dashboards from `job_type` to `queue_name`, `unique_key` to `dedupe_key`, and `running_time` seconds to `running_time_ms`.
-5. Use the compatibility adapter only as a temporary bridge.
-
-An automated legacy-table migration helper should be added before using this against a large production table with historical data.
